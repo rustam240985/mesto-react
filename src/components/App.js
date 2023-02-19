@@ -1,5 +1,5 @@
 import React from 'react';
-import Fotter from './Footer';
+import Footer from './Footer';
 import Header from './Header';
 import ImagePopup from './ImagePopup';
 import Main from './Main';
@@ -39,7 +39,7 @@ function App() {
       <div className="page__container">
         <Header />
         <Main onEditAvatar={handleEditAvatarClick} onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onCardClick={handleCardClick} />
-        <Fotter />
+        <Footer />
       </div>
       <PopupWithForm name='profile' title='Редактировать профиль' isOpen={isEditProfilePopupOpen} onClose={closeAllPopups}>
         <label className="popup__field">
