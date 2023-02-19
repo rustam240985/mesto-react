@@ -66,15 +66,6 @@ function App() {
         </label>
       </PopupWithForm>
       <ImagePopup onClose={closeAllPopups} card={selectedCard} />
-      <div className="popup popup-verify">
-        <div className="popup__container">
-          <h2 className="popup__title">Вы уверены?</h2>
-          <form className="popup__form verify-form" action="#" name="verify-form" noValidate>
-            <button className="popup__save" type="submit">Да</button>
-          </form>
-          <button className="popup__close" type="button" aria-label="Закрыть"></button>
-        </div>
-      </div>
       <PopupWithForm name='avatar' title='Обновить аватар' isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups}>
         <label className="popup__field">
           <input className="popup__input popup__input_value_url" id="avatar-input" type="url" name="avatar_url"
