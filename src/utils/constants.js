@@ -1,11 +1,3 @@
-export const popupConfirm = '.popup-verify';
-export const popupAvatar = '.popup-avatar';
-export const elementsSection = '.elements';
-export const profileName = '.profile__name';
-export const profileProffesion = '.profile__profession';
-export const popupEditProfile = '.popup-profile';
-export const popupAddCard = '.popup-add-card';
-
 // Конфиг валидации
 
 export const configValidate = {

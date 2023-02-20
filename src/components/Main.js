@@ -1,16 +1,16 @@
 import avatar from '../images/avatar_kusto.jpg';
 import api from '../utils/Api';
 import Card from './Card';
-import React from 'react';
+import { useState, useEffect } from 'react';
 
 function Main(props) {
 
-  const [userName, setUserName] = React.useState('Жак Кусто');
-  const [userDescription, setUserDescription] = React.useState('Исследователь');
-  const [userAvatar, setUserAvatar] = React.useState(avatar);
-  const [cards, setCards] = React.useState([]);
+  const [userName, setUserName] = useState('Жак Кусто');
+  const [userDescription, setUserDescription] = useState('Исследователь');
+  const [userAvatar, setUserAvatar] = useState(avatar);
+  const [cards, setCards] = useState([]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     Promise.all([api.getUser(), api.getInitialCards()])
       .then(([dataUser, dataCards]) => {
         const resultCards = dataCards.map(item => (
@@ -42,7 +42,7 @@ function Main(props) {
         <button className="profile__add-button" onClick={props.onAddPlace} type="button" aria-label="Добавить фото"></button>
       </section>
       <section aria-label="Фотографии мест" className="elements page__elements">
-        {cards && cards.map(element => (
+        {cards?.map(element => (
           <Card key={element.id} card={element} onCardClick={props.onCardClick} />
         ))}
       </section>
