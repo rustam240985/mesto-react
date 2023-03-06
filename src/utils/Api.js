@@ -33,13 +33,13 @@ class Api {
       .then(this._checkStatus)
   }
 
-  setUser({ name, info }) {
+  setUser({ name, about }) {
     return fetch(`${this._baseUrl}/${this._cohortId}/users/me`, {
       method: 'PATCH',
       headers: this._headers,
       body: JSON.stringify({
         name,
-        about: info
+        about
       })
     })
       .then(this._checkStatus)
@@ -56,20 +56,25 @@ class Api {
       .then(this._checkStatus)
   }
 
-  likeCard(id) {
-    return fetch(`${this._baseUrl}/${this._cohortId}/cards/${id}/likes`, {
-      method: 'PUT',
-      headers: this._headers
-    })
-      .then(this._checkStatus)
+  changeLikeCardStatus(id, isLiked) {
+    if (isLiked) {
+      return fetch(`${this._baseUrl}/${this._cohortId}/cards/${id}/likes`, {
+        method: 'PUT',
+        headers: this._headers
+      })
+        .then(this._checkStatus)
+    }
+    else {
+      return fetch(`${this._baseUrl}/${this._cohortId}/cards/${id}/likes`, {
+        method: 'DELETE',
+        headers: this._headers
+      })
+        .then(this._checkStatus)
+    }
   }
 
   deleteLikeCard(id) {
-    return fetch(`${this._baseUrl}/${this._cohortId}/cards/${id}/likes`, {
-      method: 'DELETE',
-      headers: this._headers
-    })
-      .then(this._checkStatus)
+
   }
 
   deleteCard(id) {
