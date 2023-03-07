@@ -1,5 +1,5 @@
 import PopupWithForm from "./PopupWithForm";
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 
 function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, isLoading }) {
   const buttonText = isLoading ? 'Сохранение...' : 'Сохранить';
@@ -7,15 +7,24 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, isLoading }) {
   const avatarRef = useRef();
   const errorRef = useRef();
 
+  useEffect(() => {
+    if (isOpen) {
+      const saveBtn = avatarRef.current.closest('.popup__form')[1];
+      saveBtn.setAttribute('disabled', 'disabled');
+      saveBtn.classList.add('popup__save_disabled');
+      avatarRef.current.value = '';
+      errorRef.current.textContent = '';
+      errorRef.current.classList.remove('popup__input-error_active', 'popup__input_type_error');
+    }
+  }, [isOpen]);
+
   function handleSubmit(e) {
     e.preventDefault();
-
     if (!avatarRef.current.validationMessage) {
       onUpdateAvatar({
         avatar: avatarRef.current.value,
       });
 
-      avatarRef.current.value = '';
     }
   }
 
@@ -34,15 +43,8 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, isLoading }) {
     }
   }
 
-  function closePopup() {
-    onClose();
-    avatarRef.current.value = '';
-    errorRef.current.textContent = '';
-    errorRef.current.classList.remove('popup__input-error_active', 'popup__input_type_error');
-  }
-
   return (
-    <PopupWithForm namePopup='avatar' title='Обновить аватар' isOpen={isOpen} onClose={closePopup} onSubmit={handleSubmit} buttonText={buttonText}>
+    <PopupWithForm namePopup='avatar' title='Обновить аватар' isOpen={isOpen} onClose={onClose} onSubmit={handleSubmit} buttonText={buttonText}>
       <label className="popup__field">
         <input ref={avatarRef} className="popup__input popup__input_value_url" id="avatar-input" type="url" name="avatar_url"
           placeholder="Ссылка на картинку" onChange={handleChange} required />

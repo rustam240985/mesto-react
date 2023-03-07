@@ -73,10 +73,6 @@ class Api {
     }
   }
 
-  deleteLikeCard(id) {
-
-  }
-
   deleteCard(id) {
     return fetch(`${this._baseUrl}/${this._cohortId}/cards/${id}`, {
       method: 'DELETE',

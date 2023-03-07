@@ -16,7 +16,7 @@ function App() {
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = useState(false);
-  const [selectedCard, setSelectedCard] = useState({ isOpen: false, link: '#', id: '#', name: '#' });
+  const [selectedCard, setSelectedCard] = useState({});
   const [currentUser, setCurrentUser] = useState({ name: "Джек", about: "Воробей" });
   const [cards, setCards] = useState([]);
 
@@ -24,7 +24,7 @@ function App() {
     Promise.all([api.getUser(), api.getInitialCards()])
       .then(([dataUser, dataCards]) => {
         setCurrentUser(dataUser);
-        setCards([...dataCards]);
+        setCards(dataCards);
       })
   }, []);
 
@@ -54,16 +54,24 @@ function App() {
   function handleCardLike(card) {
     const isLiked = card.likes.some(i => i._id === currentUser._id);
 
-    api.changeLikeCardStatus(card.id, !isLiked).then(newCard => {
-      setCards(state => state.map(c => c._id === card.id ? newCard : c));
-    });
+    api.changeLikeCardStatus(card.id, !isLiked)
+      .then(newCard => {
+        setCards(state => state.map(c => c._id === card.id ? newCard : c))
+      })
+      .catch(err => {
+        alert(`Ошибка лайка: ${err}`);
+      })
   }
 
   function handleCardDelete(card) {
-    api.deleteCard(card.id).then(data => {
-      console.log(data)
-      setCards(state => state.filter(c => c._id !== card.id));
-    });
+    api.deleteCard(card.id)
+      .then(data => {
+        console.log(data)
+        setCards(state => state.filter(c => c._id !== card.id));
+      })
+      .catch(err => {
+        alert(`Ошибка удаления карточки: ${err}`);
+      });
   }
 
   function handleUpdateUser(user) {
@@ -72,6 +80,9 @@ function App() {
       .then(data => {
         setCurrentUser(data);
         closeAllPopups();
+      })
+      .catch(err => {
+        alert(`Ошибка обновления данных пользователя: ${err}`);
       })
       .finally(() => setLoading(false))
   }
@@ -83,6 +94,9 @@ function App() {
         setCurrentUser(data);
         closeAllPopups();
       })
+      .catch(err => {
+        alert(`Ошибка обновления аватара: ${err}`);
+      })
       .finally(() => setLoading(false))
   }
 
@@ -92,6 +106,9 @@ function App() {
       .then(newCard => {
         setCards([newCard, ...cards]);
         closeAllPopups();
+      })
+      .catch(err => {
+        alert(`Ошибка добавления карточки: ${err}`);
       })
       .finally(() => setLoading(false))
   }
