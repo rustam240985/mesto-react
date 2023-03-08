@@ -26,6 +26,9 @@ function App() {
         setCurrentUser(dataUser);
         setCards(dataCards);
       })
+      .catch(error => {
+        alert(`Ошибка загрузки данных на странице: ${error}`);
+      })
   }, []);
 
   function handleEditAvatarClick() {
